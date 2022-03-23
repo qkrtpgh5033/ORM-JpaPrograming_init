@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDate;
+import java.util.logging.Logger;
 
 public class JpaMain {
 
@@ -21,11 +23,19 @@ public class JpaMain {
 
         //code
         try{
-            Member findMember = em.find(Member.class, 1L);
-            findMember.setName("memberJPA");
+            Member memberA = new Member();
+
+//            memberA.setId(10L);
+            memberA.setUsername("memberA");
+
+
+            em.persist(memberA);
 
             transaction.commit();
         }catch (Exception e){
+            System.out.println("오류 발생");
+            System.out.println("오류 내용" + e);
+//            Logger.getLogger(e+"");
             transaction.rollback();
         }finally {
             em.close();

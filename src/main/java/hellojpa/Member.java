@@ -3,8 +3,10 @@ package hellojpa;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @Entity를 무조건 넣어야됨
@@ -13,12 +15,19 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+@SequenceGenerator(
+        name = "member_seq_generator",
+        sequenceName = "member_seq", initialValue = 1, allocationSize = 50)
 public class Member {
     /**
      * @Id -> PK
      */
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "member_seq_generator")
+    private Long id;
 
-    private String name;
+    @Column(name = "name")
+    private String username;
+
+
 }
