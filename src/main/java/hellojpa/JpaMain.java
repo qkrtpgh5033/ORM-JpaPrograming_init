@@ -23,19 +23,20 @@ public class JpaMain {
 
         //code
         try{
-            Member memberA = new Member();
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-//            memberA.setId(10L);
-            memberA.setUsername("memberA");
+            Member member = new Member();
+            member.setUsername("memberB");
 
+            member.setTeam(team);
+            em.persist(member);
 
-            em.persist(memberA);
 
             transaction.commit();
         }catch (Exception e){
-            System.out.println("오류 발생");
             System.out.println("오류 내용" + e);
-//            Logger.getLogger(e+"");
             transaction.rollback();
         }finally {
             em.close();

@@ -15,16 +15,23 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@SequenceGenerator(
-        name = "member_seq_generator",
-        sequenceName = "member_seq", initialValue = 1, allocationSize = 50)
+//@SequenceGenerator(
+//        name = "member_seq_generator",
+//        sequenceName = "member_seq", initialValue = 1, allocationSize = 50)
 public class Member {
     /**
      * @Id -> PK
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "member_seq_generator")
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
+//    strategy = GenerationType.IDENTITY, generator = "member_seq_generator"
     private Long id;
+
+    @ManyToOne // 단방향 관계
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
 
     @Column(name = "name")
     private String username;
