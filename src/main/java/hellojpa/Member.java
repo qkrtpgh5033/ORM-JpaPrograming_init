@@ -36,5 +36,8 @@ public class Member {
     @Column(name = "name")
     private String username;
 
-
+    public void setTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
 }
