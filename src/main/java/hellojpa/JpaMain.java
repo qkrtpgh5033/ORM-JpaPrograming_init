@@ -4,13 +4,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.logging.Logger;
 
 public class JpaMain {
 
     public static void main(String[] args) {
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         /**
          * EntityManager : 고객의 요청에 따라 DB 작업을 할 때 필요
@@ -24,31 +22,22 @@ public class JpaMain {
 
         //code
         try{
-
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
-
             Member member = new Member();
             member.setUsername("memberA");
-            member.setTeam(team);
+            member.setHomeAddress(new Address("city", "street", "zipcode"));
+
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
+
+            member.getAddressHistory().add(new AddressEntity("city2", "street2", "10000"));
+            member.getAddressHistory().add(new AddressEntity("city3", "street3", "10000"));
+
             em.persist(member);
-
-//            em.flush();
-//            em.clear();
-
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> findTeamMembers = findTeam.getMembers();
-
-            System.out.println("========================");
-            for(Member m : findTeamMembers){
-                System.out.println("m = " + m.getUsername());
-            }
-            System.out.println("========================");
 
             transaction.commit();
         }catch (Exception e){
-            System.out.println("오류 내용" + e);
+            e.printStackTrace();
             transaction.rollback();
         }finally {
             em.close();
